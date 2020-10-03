@@ -1,0 +1,22 @@
+{
+  "eslint.nodePath": "./node_modules/eslint",
+  "eslint.packageManager": "yarn",
+  "editor.renderWhitespace": "boundary",
+  "editor.detectIndentation": true,
+  "files.insertFinalNewline": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.rulers": [100],
+  // javascript
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+  // eslint
+  "eslint.run": "onType",
+  "eslint.enable": true
+}

@@ -1,0 +1,13 @@
+version: '3'
+services:
+  next:
+    build:
+      context: .
+      dockerfile: ./docker/todo-app/Dockerfile
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./src:/usr/src
+    command: "yarn dev"
+    ports:
+      - "4001:3000"
