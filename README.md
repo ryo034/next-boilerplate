@@ -87,7 +87,7 @@ $ yarn add -D stylelint stylelint-prettier stylelint-config-prettier stylelint-s
 ## 全部まとめて
 
 ```bash
-$ yarn add -D eslint eslint-plugin-prettier eslint-config-prettier eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react babel-eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin prettier stylelint stylelint-prettier stylelint-config-prettier stylelint-scss stylelint-config-standard stylelint-order stylelint-config-recess-order
+$ yarn add -D typescript @types/react @types/react-dom @types/node sass @zeit/next-sass node-sass eslint eslint-plugin-prettier eslint-config-prettier eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react babel-eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin prettier stylelint stylelint-prettier stylelint-config-prettier stylelint-scss stylelint-config-standard stylelint-order stylelint-config-recess-order
 ```
 
 ## material-ui
