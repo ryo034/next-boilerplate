@@ -1,9 +1,9 @@
-version: '3'
+version: "3"
 services:
   next:
     build:
       context: .
-      dockerfile: ./docker/todo-app/Dockerfile
+      dockerfile: ./docker/next-boilerplate/Dockerfile
     stdin_open: true
     tty: true
     volumes:
