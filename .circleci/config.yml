@@ -12,16 +12,16 @@ executors:
 commands:
   yarn-install:
     steps:
-      - restore_cache:
-          keys:
-            - yarn-cache-{{ checksum "package.json" }}
+      # - restore_cache:
+      #     keys:
+      #       - yarn-cache-{{ checksum "package.json" }}
       - run:
           name: install yarn
           command: yarn install
-      - save_cache:
-          key: yarn-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      # - save_cache:
+      #     key: yarn-cache-{{ checksum "package.json" }}
+      #     paths:
+      #       - node_modules
   lint:
     steps:
       - run:
