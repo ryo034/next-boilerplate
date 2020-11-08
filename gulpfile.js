@@ -18,7 +18,7 @@ const config = {
   distribution: process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
   region: process.env.AWS_DEFAULT_REGION,
   headers: {
-    'x-amz-acl': 'private'
+    // 'x-amz-acl': 'private'
     /* 'Cache-Control': 'max-age=315360000, no-transform, public', */
   },
   distDir: 'dist',
