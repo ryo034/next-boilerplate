@@ -70,7 +70,7 @@ jobs:
           failure_message: ':circleci-fail: $CIRCLE_BRANCH のstagingへのデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
           webhook: '${SLACK_WEBHOOK}'
     environment:
-      AWS_BUCKET_NAME: next-circleci-sample-staging
+      AWS_BUCKET_NAME: next-circleci-sample-staging.s3.amazonaws.com
       AWS_CLOUDFRONT: EIW61NBHTXSAX
   deploy-prod:
     executor:
@@ -87,7 +87,7 @@ jobs:
           failure_message: ':circleci-fail: $CIRCLE_BRANCH のproductionへのデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
           webhook: '${SLACK_WEBHOOK}'
     environment:
-      AWS_BUCKET_NAME: next-circleci-sample-production
+      AWS_BUCKET_NAME: next-circleci-sample-production.s3.amazonaws.com
       AWS_CLOUDFRONT: E2OPITUFPPKBNM
 
 workflows:
