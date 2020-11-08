@@ -12,6 +12,7 @@ executors:
 commands:
   yarn-install:
     steps:
+      - run: ls
       # - restore_cache:
       #     keys:
       #       - yarn-cache-{{ checksum "package.json" }}
