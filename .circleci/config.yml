@@ -57,11 +57,14 @@ jobs:
       - lint
       - build
       - deploy
-      - slack/notify:
-          message: projectのstagingをリリースしたよ
-    environment:
-      AWS_BUCKET_NAME: <aws bucket url>
-      AWS_CLOUDFRONT: <cloudfront>
+      - slack/status:
+        success_message: ':circleci-pass: $CIRCLE_BRANCH のstagingへのデプロイが完了しました\n:github_octocat: User：$CIRCLE_USERNAME'
+        failure_message: ':circleci-fail: $CIRCLE_BRANCH のstagingへのデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
+        webhook: "${SLACK_WEBHOOK}"
+      - run: mv .env.staging ./.env # staging環境用のenvをリネームして使う
+    # environment:
+    #   AWS_BUCKET_NAME: <aws bucket url>
+    #   AWS_CLOUDFRONT: <cloudfront>
   deploy-prod:
     executor:
       name: default
@@ -71,8 +74,11 @@ jobs:
       - lint
       - build
       - deploy
-      - slack/notify:
-          message: productのproductionをリリースしたよ
+      - slack/status:
+        success_message: ':circleci-pass: $CIRCLE_BRANCH のproductionへのデプロイが完了しました\n:github_octocat: User：$CIRCLE_USERNAME'
+        failure_message: ':circleci-fail: $CIRCLE_BRANCH のproductionへのデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
+        webhook: "${SLACK_WEBHOOK}"
+      - run: mv .env.production ./.env # production環境用のenvをリネームして使う
     environment:
       AWS_BUCKET_NAME: <aws bucket url>
       AWS_CLOUDFRONT: <cloudfront>
