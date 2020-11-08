@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   next:
     build:
@@ -10,7 +10,7 @@ services:
     restart: always
     tty: true
     volumes:
-      - ./app:/usr/src/app
+      - .:/usr/src/app
       - yarn-cache:/usr/local/share/.cache/yarn/v2
     ports:
       # 3000は他でよく使用するので4001を開く

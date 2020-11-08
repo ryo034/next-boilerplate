@@ -65,15 +65,10 @@ $ docker-compose run --rm next npx create-next-app --example with-typescript-esl
 $ cd app && mkdir src && mv pages styles public src && cd ..
 ```
 
+## app/を全てrootに移動
+ci/cdの時にapp/にあると面倒なのでapp/を全てルートに移動します
+
 ## コンテナを起動
-
-`docker-compose.yml`の`volumes`を修正
-```yml
-volumes:
-  (変更前)- ./:/usr/src/app
-  (変更後)- ./app:/usr/src/app
-```
-
 ```bash
 $ docker-compose up
 ```

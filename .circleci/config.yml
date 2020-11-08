@@ -44,7 +44,7 @@ commands:
     steps:
       - run:
           name: deploy staging
-          command: ./app/node_modules/.bin/gulp deploy
+          command: ./node_modules/.bin/gulp deploy
 
 jobs:
   test:
@@ -52,11 +52,9 @@ jobs:
       name: default
     steps:
       - checkout
-      - run: cd ./app
       - yarn-install
       - lint
       - test
-      - run: cd ..
   deploy-stg:
     executor:
       name: default
@@ -66,12 +64,12 @@ jobs:
       - lint
       - test
       - build
-      - run: mv ./app/.env.staging ./app/.env
+      - run: mv .env.staging .env
       - deploy
       - slack/status:
           success_message: ':circleci-pass: $CIRCLE_BRANCH のstagingへのデプロイが完了しました\n:github_octocat: User：$CIRCLE_USERNAME'
           failure_message: ':circleci-fail: $CIRCLE_BRANCH のstagingへのデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
-          webhook: "${SLACK_WEBHOOK}"
+          webhook: '${SLACK_WEBHOOK}'
   deploy-prod:
     executor:
       name: default
@@ -81,12 +79,12 @@ jobs:
       - lint
       - test
       - build
-      - run: mv ./app/.env.production ./app/.env
+      - run: mv .env.production .env
       - deploy
       - slack/status:
           success_message: ':circleci-pass: $CIRCLE_BRANCH のproductionへのデプロイが完了しました\n:github_octocat: User：$CIRCLE_USERNAME'
           failure_message: ':circleci-fail: $CIRCLE_BRANCH のproductionへのデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
-          webhook: "${SLACK_WEBHOOK}"
+          webhook: '${SLACK_WEBHOOK}'
     environment:
       AWS_BUCKET_NAME: <aws bucket url>
       AWS_CLOUDFRONT: <cloudfront>
