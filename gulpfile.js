@@ -1,7 +1,10 @@
-import { task, src } from 'gulp';
-import { create, reporter } from 'gulp-awspublish';
-import parallelize from 'concurrent-transform';
-import cloudfront from 'gulp-cloudfront-invalidate-aws-publish';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-undef */
+const gulp = require('gulp');
+const awspublish = require('gulp-awspublish');
+const parallelize = require('concurrent-transform');
+const cloudfront = require('gulp-cloudfront-invalidate-aws-publish');
 
 const config = {
   params: {
