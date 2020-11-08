@@ -5,7 +5,7 @@ orbs:
 
 executors:
   default:
-    working_directory: ~/workspace/app
+    working_directory: ~/workspace
     docker:
       - image: circleci/node:latest
 
@@ -14,37 +14,37 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "package.json" }}
+            - yarn-cache-{{ checksum "./app/package.json" }}
       - run:
           name: install yarn
-          command: yarn install
+          command: yarn install --cwd ./app
       - save_cache:
-          key: yarn-cache-{{ checksum "package.json" }}
+          key: yarn-cache-{{ checksum "./app/package.json" }}
           paths:
             - node_modules
   lint:
     steps:
       - run:
           name: eslint
-          command: yarn run lint
+          command: yarn run lint --cwd ./app
       - run:
           name: stylelint
-          command: yarn run lint:css
+          command: yarn run lint:css --cwd ./app
   test:
     steps:
       - run:
           name: test
-          command: yarn run test
+          command: yarn run test --cwd ./app
   build:
     steps:
       - run:
           name: yarn run build
-          command: yarn run build
+          command: yarn run build --cwd ./app
   deploy:
     steps:
       - run:
           name: deploy staging
-          command: ./node_modules/.bin/gulp deploy
+          command: ./app/node_modules/.bin/gulp deploy
 
 jobs:
   test:
@@ -64,12 +64,12 @@ jobs:
       - lint
       - test
       - build
+      - run: mv ./app/.env.staging ./app/.env
       - deploy
       - slack/status:
           success_message: ':circleci-pass: $CIRCLE_BRANCH のstagingへのデプロイが完了しました\n:github_octocat: User：$CIRCLE_USERNAME'
           failure_message: ':circleci-fail: $CIRCLE_BRANCH のstagingへのデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
           webhook: "${SLACK_WEBHOOK}"
-      - run: mv ./.env.staging ./.env
   deploy-prod:
     executor:
       name: default
@@ -79,12 +79,12 @@ jobs:
       - lint
       - test
       - build
+      - run: mv ./app/.env.production ./app/.env
       - deploy
       - slack/status:
           success_message: ':circleci-pass: $CIRCLE_BRANCH のproductionへのデプロイが完了しました\n:github_octocat: User：$CIRCLE_USERNAME'
           failure_message: ':circleci-fail: $CIRCLE_BRANCH のproductionへのデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
           webhook: "${SLACK_WEBHOOK}"
-      - run: mv ./.env.production ./.env
     environment:
       AWS_BUCKET_NAME: <aws bucket url>
       AWS_CLOUDFRONT: <cloudfront>
