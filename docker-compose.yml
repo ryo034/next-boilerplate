@@ -4,10 +4,21 @@ services:
     build:
       context: .
       dockerfile: ./docker/next-boilerplate/Dockerfile
+    image: next
+    container_name: nextjs
     stdin_open: true
+    restart: always
     tty: true
     volumes:
-      - ./src:/usr/src
-    command: "yarn dev"
+      - ./app:/usr/src/app
+      - yarn-cache:/usr/local/share/.cache/yarn/v2
     ports:
-      - "4001:3000"
+      # 3000は他でよく使用するので4001を開く
+      - 4001:3000
+    environment:
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+    command: yarn dev
+# ホスト側とコンテナ側と分離して管理,yarnの高速化
+volumes:
+  yarn-cache:

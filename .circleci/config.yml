@@ -1,0 +1,96 @@
+version: 2.1
+
+orbs:
+  slack: circleci/slack@3.3.0
+
+executors:
+  default:
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/node:latest
+
+commands:
+  yarn-install:
+    steps:
+      - restore_cache:
+          key: yarn-cache-{{ checksum "package.json" }}
+      - run:
+          name: install yarn
+          command: yarn install
+      - save_cache:
+          key: yarn-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+  lint:
+    steps:
+      - run:
+          name: eslint
+          command: yarn run lint
+      - run:
+          name: stylelint
+          command: yarn run lint:css
+  build:
+    steps:
+      - run:
+          name: yarn run build
+          command: yarn run build
+  deploy:
+    steps:
+      - run:
+          name: deploy staging
+          command: ./node_modules/.bin/gulp deploy
+
+jobs:
+  test:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - yarn-install
+      - lint
+  deploy-stg:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - yarn-install
+      - lint
+      - build
+      - deploy
+      - slack/notify:
+          message: projectのstagingをリリースしたよ
+    environment:
+      AWS_BUCKET_NAME: <aws bucket url>
+      AWS_CLOUDFRONT: <cloudfront>
+  deploy-prod:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - yarn-install
+      - lint
+      - build
+      - deploy
+      - slack/notify:
+          message: productのproductionをリリースしたよ
+    environment:
+      AWS_BUCKET_NAME: <aws bucket url>
+      AWS_CLOUDFRONT: <cloudfront>
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
+      - deploy-stg:
+          requires:
+            - test
+          filters:
+            branches:
+              only: develop
+      - deploy-prod:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
