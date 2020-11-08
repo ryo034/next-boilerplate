@@ -1,10 +1,11 @@
 /* eslint-disable no-param-reassign */
-import { resolve } from 'path';
-import withSass from '@zeit/next-sass';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+const withSass = require('@zeit/next-sass');
 
-export default withSass({
+module.exports = withSass({
   webpack: (config) => {
-    config.resolve.alias['@'] = resolve(__dirname);
+    config.resolve.alias['@'] = path.resolve(__dirname);
     return config;
   },
   env: {
