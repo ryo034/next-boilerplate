@@ -30,6 +30,11 @@ commands:
       - run:
           name: stylelint
           command: yarn run lint:css
+  test:
+    steps:
+      - run:
+          name: test
+          command: yarn run test
   build:
     steps:
       - run:
@@ -49,6 +54,7 @@ jobs:
       - checkout
       - yarn-install
       - lint
+      - test
   deploy-stg:
     executor:
       name: default
@@ -56,6 +62,7 @@ jobs:
       - checkout
       - yarn-install
       - lint
+      - test
       - build
       - deploy
       - slack/status:
@@ -70,6 +77,7 @@ jobs:
       - checkout
       - yarn-install
       - lint
+      - test
       - build
       - deploy
       - slack/status:
