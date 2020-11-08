@@ -1,9 +1,11 @@
-## インストール
+# 概要
+- 簡単なTODOのSPA
+- Docker
+- CircleCIでテストとビルドをしS3へデプロイする
 
-```bash
-$ npx create-next-app next-ts src
-$ yarn run dev
-```
+## setup
+
+`create-with-docker-compose.md`を参照
 
 ## TypeScript 対応
 
