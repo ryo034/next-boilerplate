@@ -1,7 +1,8 @@
 # 概要
-- 簡単なTODOのSPA
+
+- 簡単な TODO の SPA
 - Docker
-- CircleCIでテストとビルドをしS3へデプロイする
+- CircleCI でテストとビルドをし S3 へデプロイする
 
 ## setup
 
@@ -22,18 +23,18 @@ $ yarn add sass @zeit/next-sass node-sass
 next.config.js
 
 ```js
-const path = require("path");
-const withSass = require("@zeit/next-sass");
+const path = require('path');
+const withSass = require('@zeit/next-sass');
 
 module.exports = withSass({
   webpack: (config) => {
-    config.resolve.alias["@"] = path.resolve(__dirname);
+    config.resolve.alias['@'] = path.resolve(__dirname);
     return config;
   },
   env: {
-    TEST_VAR: process.env.TEST_VAR,
+    TEST_VAR: process.env.TEST_VAR
   },
-  cssModules: true,
+  cssModules: true
 });
 ```
 
@@ -120,18 +121,18 @@ $ yarn add --dev babel-plugin-styled-components
 \_app.tsx
 
 ```tsx
-import React, { useEffect } from "react";
-import { AppProps } from "next/app";
-import { ThemeProvider as StyledComponentsThemeProvider } from "styled-components";
-import { ThemeProvider as MaterialUIThemeProvider } from "@material-ui/core/styles";
-import { StylesProvider } from "@material-ui/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Layout from "./components/page/layout";
-import theme from "./components/theme";
+import React, { useEffect } from 'react';
+import { AppProps } from 'next/app';
+import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
+import { ThemeProvider as MaterialUIThemeProvider } from '@material-ui/core/styles';
+import { StylesProvider } from '@material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Layout from './components/page/layout';
+import theme from './components/theme';
 
 const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   useEffect(() => {
-    const jssStyles = document.querySelector("#jss-server-side");
+    const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
@@ -157,15 +158,9 @@ export default MyApp;
 pages/\_document.tsx
 
 ```tsx
-import Document, {
-  DocumentContext,
-  Html,
-  Head,
-  Main,
-  NextScript,
-} from "next/document";
-import { ServerStyleSheet as StyledComponentSheets } from "styled-components";
-import { ServerStyleSheets as MaterialUiServerStyleSheets } from "@material-ui/styles";
+import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/document';
+import { ServerStyleSheet as StyledComponentSheets } from 'styled-components';
+import { ServerStyleSheets as MaterialUiServerStyleSheets } from '@material-ui/styles';
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -179,7 +174,7 @@ export default class MyDocument extends Document {
           enhanceApp: (App) => (props) =>
             styledComponentSheets.collectStyles(
               materialUiServerStyleSheets.collect(<App {...props} />)
-            ),
+            )
         });
 
       const initialProps = await Document.getInitialProps(ctx);
@@ -191,7 +186,7 @@ export default class MyDocument extends Document {
             {styledComponentSheets.getStyleElement()}
             {materialUiServerStyleSheets.getStyleElement()}
           </>
-        ),
+        )
       };
     } finally {
       styledComponentSheets.seal();

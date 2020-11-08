@@ -1,7 +1,8 @@
 # 作成方法
+
 - このリポジトリの作成手順
 
-## Dockerfile / docker-compose.ymlを作成
+## Dockerfile / docker-compose.yml を作成
 
 ```bash
 # docker-compose.ymlを作成
@@ -13,6 +14,7 @@ $ mkdir docker && cd docker && mkdir next-boilerplate && cd next-boilerplate && 
 **内容を以下のようにしてください**
 
 `Dockerfile`
+
 ```Dockerfile
 #==================================================
 # for development
@@ -21,6 +23,7 @@ WORKDIR /usr/src/app
 ```
 
 `docker-compose.yml`
+
 ```
 version: "3"
 services:
@@ -48,29 +51,32 @@ volumes:
   yarn-cache:
 ```
 
-## dockerをbuildしてimageを作成
+## docker を build して image を作成
+
 ```bash
 $ docker-compose build
 ```
 
-## nextのプロジェクトを作成
+## next のプロジェクトを作成
+
 ```bash
 $ docker-compose run --rm next npx create-next-app app
 # exampleを使ってもいい
 $ docker-compose run --rm next npx create-next-app --example with-typescript-eslint-jest app
 ```
 
-## src/に`pages`,`styles`,`public`をsrcに移動
+## src/に`pages`,`styles`,`public`を src に移動
+
 ```bash
 $ cd app && mkdir src && mv pages styles public src && cd ..
 ```
 
-## app/を全てrootに移動
-ci/cdの時にapp/にあると面倒なのでapp/を全てルートに移動します
+## app/を全て root に移動
+
+ci/cd の時に app/にあると面倒なので app/を全てルートに移動します
 
 ## コンテナを起動
+
 ```bash
 $ docker-compose up
 ```
-
-

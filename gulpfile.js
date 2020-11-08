@@ -1,7 +1,7 @@
-const gulp = require("gulp");
-const awspublish = require("gulp-awspublish");
-const parallelize = require("concurrent-transform");
-const cloudfront = require("gulp-cloudfront-invalidate-aws-publish");
+const gulp = require('gulp');
+const awspublish = require('gulp-awspublish');
+const parallelize = require('concurrent-transform');
+const cloudfront = require('gulp-cloudfront-invalidate-aws-publish');
 
 const config = {
   params: {
@@ -10,7 +10,7 @@ const config = {
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    signatureVersion: "v3"
+    signatureVersion: 'v3'
   },
   deleteOldVersions: false, // PRODUCTION で使用しない
   distribution: process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
@@ -19,15 +19,15 @@ const config = {
     'x-amz-acl': 'private'
     /*'Cache-Control': 'max-age=315360000, no-transform, public',*/
   },
-  distDir: "dist",
+  distDir: 'dist',
   indexRootPath: true,
-  cacheFileName: ".awspublish",
+  cacheFileName: '.awspublish',
   concurrentUploads: 10,
   wait: true // CloudFront のキャッシュ削除が完了するまでの時間（約30〜60秒）
 };
 
-gulp.task("deploy", function() {
-   // S3 オプションを使用して新しい publisher を作成する
+gulp.task('deploy', function () {
+  // S3 オプションを使用して新しい publisher を作成する
   // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property
   const publisher = awspublish.create(config);
   let g = gulp.src(`./${config.distDir}/**`);
