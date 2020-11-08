@@ -99,10 +99,10 @@ workflows:
             - test
           filters:
             branches:
-              only: develop
+              only: staging
       - deploy-prod:
           requires:
             - test
           filters:
             branches:
-              only: master
+              only: main
