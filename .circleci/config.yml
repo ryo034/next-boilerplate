@@ -14,32 +14,32 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - yarn-cache-{{ checksum "./app/package.json" }}
+            - yarn-cache-{{ checksum "package.json" }}
       - run:
           name: install yarn
-          command: yarn install --cwd ./app
+          command: yarn install
       - save_cache:
-          key: yarn-cache-{{ checksum "./app/package.json" }}
+          key: yarn-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
   lint:
     steps:
       - run:
           name: eslint
-          command: yarn run lint --cwd ./app
+          command: yarn run lint
       - run:
           name: stylelint
-          command: yarn run lint:css --cwd ./app
+          command: yarn run lint:css
   test:
     steps:
       - run:
           name: test
-          command: yarn run test --cwd ./app
+          command: yarn run test
   build:
     steps:
       - run:
           name: yarn run build
-          command: yarn run build --cwd ./app
+          command: yarn run build
   deploy:
     steps:
       - run:
@@ -51,10 +51,12 @@ jobs:
     executor:
       name: default
     steps:
+      - run: cd ./app
       - checkout
       - yarn-install
       - lint
       - test
+      - run: cd ..
   deploy-stg:
     executor:
       name: default
