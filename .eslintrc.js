@@ -3,26 +3,28 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   env: {
     browser: true,
-    node: true
+    node: true,
+    es6: true
   },
   parserOptions: {
-    parser: '@typescript-eslint/parser',
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true
     }
   },
   extends: [
+    'airbnb',
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:prettier/recommended',
-    'prettier/@typescript-eslint',
-    'airbnb'
+    'prettier/@typescript-eslint'
   ],
   plugins: ['@typescript-eslint', 'react'],
   rules: {
+    'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+    'react/jsx-one-expression-per-line': 'off',
     // DOC: https://eslint.org/docs/rules/no-param-reassign
     // 引数に再代入するかどうか
     'no-param-reassign': 1,
@@ -32,7 +34,8 @@ module.exports = {
     // DOC: https://eslint.org/docs/rules/no-console
     // consoleの使用を禁止するかどうか
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    // eslint-config-airbnb利用時のeslintのエラーを解消するため。no-extraneous-dependenciesというeslint-config-airbnbのルールと衝突するため
+    // eslint-config-airbnb利用時のeslintのエラーを解消するため。
+    // no-extraneous-dependenciesというeslint-config-airbnbのルールと衝突するため
     'import/no-extraneous-dependencies': [
       'error',
       {
@@ -62,9 +65,6 @@ module.exports = {
     // DOC: https://eslint.org/docs/rules/no-plusplus
     // 単項演算子++と--を許可
     'no-plusplus': 'off',
-    // https://eslint.org/docs/rules/comma-style
-    // 末尾カンマ禁止
-    'comma-style': ['error', 'last'],
     // https://eslint.org/docs/rules/no-useless-escape
     // エスケープの使用を許可。docでの</script>を許可するため
     'no-useless-escape': 'off',
@@ -75,28 +75,16 @@ module.exports = {
       'error',
       'ignorePackages',
       {
-        json: 'never',
-        tsx: 'never',
+        '': 'never',
         js: 'never',
-        scss: 'never',
-        css: 'never',
-        ts: 'never'
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never'
       }
     ]
   },
   settings: {
     'import/extensions': ['.js', '.tsx', '.ts', '.json'],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }]
-    // 'import/resolver': {
-    //   'babel-module': {
-    //     root: '.',
-    //     alias: {
-    //       '@': './src'
-    //     }
-    //   },
-    //   node: {
-    //     extensions: ['.js', '.tsx', '.ts', '.json']
-    //   }
-    // }
   }
 };

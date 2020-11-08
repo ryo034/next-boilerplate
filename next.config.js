@@ -1,9 +1,10 @@
-const path = require('path');
-const withSass = require('@zeit/next-sass');
+/* eslint-disable no-param-reassign */
+import { resolve } from 'path';
+import withSass from '@zeit/next-sass';
 
-module.exports = withSass({
+export default withSass({
   webpack: (config) => {
-    config.resolve.alias['@'] = path.resolve(__dirname);
+    config.resolve.alias['@'] = resolve(__dirname);
     return config;
   },
   env: {

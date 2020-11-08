@@ -1,7 +1,7 @@
-const gulp = require('gulp');
-const awspublish = require('gulp-awspublish');
-const parallelize = require('concurrent-transform');
-const cloudfront = require('gulp-cloudfront-invalidate-aws-publish');
+import { task, src } from 'gulp';
+import { create, reporter } from 'gulp-awspublish';
+import parallelize from 'concurrent-transform';
+import cloudfront from 'gulp-cloudfront-invalidate-aws-publish';
 
 const config = {
   params: {
@@ -17,7 +17,7 @@ const config = {
   region: process.env.AWS_DEFAULT_REGION,
   headers: {
     'x-amz-acl': 'private'
-    /*'Cache-Control': 'max-age=315360000, no-transform, public',*/
+    /* 'Cache-Control': 'max-age=315360000, no-transform, public', */
   },
   distDir: 'dist',
   indexRootPath: true,
@@ -26,11 +26,12 @@ const config = {
   wait: true // CloudFront のキャッシュ削除が完了するまでの時間（約30〜60秒）
 };
 
-gulp.task('deploy', function () {
+// eslint-disable-next-line func-names
+task('deploy', function () {
   // S3 オプションを使用して新しい publisher を作成する
   // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#constructor-property
-  const publisher = awspublish.create(config);
-  let g = gulp.src(`./${config.distDir}/**`);
+  const publisher = create(config);
+  let g = src(`./${config.distDir}/**`);
   // publisher は、上記で指定した Content-Length、Content-Type、および他のヘッダーを追加する
   // 指定しない場合、はデフォルトで x-amz-acl が public-read に設定される
   g = g.pipe(parallelize(publisher.publish(config.headers), config.concurrentUploads));
@@ -43,6 +44,6 @@ gulp.task('deploy', function () {
   // 連続したアップロードを高速化するためにキャッシュファイルを作成する
   g = g.pipe(publisher.cache());
   // アップロードの更新をコンソールに出力する
-  g = g.pipe(awspublish.reporter());
+  g = g.pipe(reporter());
   return g;
 });
